@@ -1,0 +1,64 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.1s;
+  white-space: nowrap;
+  border: none;
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Variants */
+.primary {
+  background: var(--teal-btn);
+  color: #fff;
+  border: none;
+}
+.primary:hover {
+  background: #2e8e90;
+}
+
+.outline {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--text-muted);
+}
+.outline:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--text);
+  border: none;
+}
+.ghost:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Sizes */
+.sm {
+  font-size: 0.82rem;
+  padding: 7px 16px;
+}
+
+.md {
+  font-size: 0.9rem;
+  padding: 9px 22px;
+}
+
+.lg {
+  font-size: 1rem;
+  padding: 13px 30px;
+}

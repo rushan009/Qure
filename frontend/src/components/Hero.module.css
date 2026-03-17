@@ -1,0 +1,51 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 72px 48px 64px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.text {
+  flex: 1;
+  max-width: 520px;
+}
+
+.heading {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.accent {
+  color: var(--teal);
+}
+
+.subtitle {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 440px;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .subtitle { max-width: 100%; }
+  .buttons  { justify-content: center; }
+}

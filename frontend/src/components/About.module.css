@@ -1,0 +1,35 @@
+
+.section {
+  padding: 72px 48px;
+}
+
+.inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.body {
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-size: 0.97rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+@media (max-width: 480px) {
+  .section { padding: 48px 24px; }
+  .stats   { grid-template-columns: 1fr; gap: 16px; }
+}

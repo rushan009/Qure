@@ -1,0 +1,33 @@
+.section {
+  background: var(--bg2);
+  padding: 64px 48px;
+}
+
+.inner {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.submitBtn {
+  width: 100% !important;
+  margin-top: 4px;
+  border-radius: var(--radius-full) !important;
+}
+
+@media (max-width: 768px) {
+  .section { padding: 48px 24px; }
+}
