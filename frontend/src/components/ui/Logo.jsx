@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Logo.module.css';
+import { Link } from 'react-router-dom';
 
 /**
  * Logo — Qure brand mark
@@ -8,10 +9,10 @@ import styles from './Logo.module.css';
  *  size : 'sm' | 'md' | 'lg'  (default: 'md')
  */
 const Logo = ({ size = 'md' }) => (
-  <a href="#" className={`${styles.logo} ${styles[size]}`}>
+  <Link to="/" className={`${styles.logo} ${styles[size]}`}>
     <span className={styles.icon}>Q</span>
     <span className={styles.wordmark}>Qure</span>
-  </a>
+  </Link>
 );
 
 export default Logo;

@@ -32,8 +32,8 @@ const Navbar = () => {
 
       {/* Desktop actions */}
       <div className={styles.actions}>
-        <Button variant="ghost">Log in</Button>
-        <Button variant="primary">Get Started</Button>
+        <Button variant="ghost" href={"/login"}>Log in</Button>
+        <Button variant="primary" href={"/signup"}>Sign Up </Button>
       </div>
 
       {/* Mobile hamburger */}
@@ -61,8 +61,10 @@ const Navbar = () => {
             </a>
           ))}
           <div className={styles.mobileBtns}>
-            <Button variant="ghost" size="sm">Log in</Button>
-            <Button variant="primary" size="sm">Get Started</Button>
+            <Button variant="ghost" size="sm" href={"/login"}>Log in</Button>
+            <Button variant="primary" size="sm" href={"/signup"}>
+              Sign Up
+            </Button>
           </div>
         </div>
       )}

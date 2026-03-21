@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Button.module.css';
+import {Link} from 'react-router-dom'
 
 /**
  * Button — reusable button component
@@ -31,9 +32,9 @@ const Button = ({
 
   if (href) {
     return (
-      <a href={href} className={classes} {...rest}>
+      <Link to={href} className={classes} {...rest}>
         {children}
-      </a>
+      </Link>
     );
   }
 
