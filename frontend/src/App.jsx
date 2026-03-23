@@ -5,6 +5,7 @@ import {SignUp} from './pages/Signup'
 import { useState } from "react";
 import { CustomToast } from "./components/CustomToast";
 import { Login } from './pages/Login';
+import Dashboard from './pages/user/dashboard';
 const App = () => {
     const [toast, setToast] = useState(null);
   
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/" element={<Index/>} />
             <Route path="/signup" element={<SignUp setToast={setToast} />} />
             <Route path="/login" element={<Login setToast={setToast} />} />
+            <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
         
 

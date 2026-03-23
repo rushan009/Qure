@@ -4,10 +4,12 @@ import { InputField } from "../components/auth/InputField";
 import { LicenseUpload } from "../components/auth/LicenseUpload";
 import { SubmitButton } from "../components/auth/SubmitButton";
 import { SignupLink } from "../components/auth/SignupLink";
+import { useLogin } from "../hooks/useLogin";
 
 import React from 'react'
 
 export const Login = ({setToast}) => {
+  const {formData, handleChange, handleSubmit, loading} = useLogin(setToast);
 
   return (
      <div className="min-h-screen bg-[#edf7f5] flex flex-col">
@@ -26,14 +28,15 @@ export const Login = ({setToast}) => {
         
 
           <div className="flex flex-col gap-3">
-            <InputField label="Phone/Email" id="phone/email" type="text" placeholder="+977 98XXXXXXXX" setToast={setToast} />
-            <InputField label="Password" id="password" type="password" placeholder="••••••••" setToast={setToast} />
-          
-           
+          <form onSubmit={handleSubmit}>
+            <InputField onChange={handleChange} value={formData.identifier} label="Phone/Email" id="identifier" type="text" placeholder="+977 98XXXXXXXX" setToast={setToast} />
+            <InputField onChange={handleChange} value={formData.password} label="Password" id="password" type="password" placeholder="••••••••" setToast={setToast} />            
 
             <div className="mt-2">
               <SubmitButton label="log in" />
             </div>
+          </form>
+            {/* <InputField label="Full Name" id="fullName" placeholder="John Doe" setToast={setToast} /> */}
           </div>
 
           <div className="mt-3">

@@ -5,10 +5,13 @@ import { LicenseUpload } from "../components/auth/LicenseUpload";
 import { SubmitButton } from "../components/auth/SubmitButton";
 import { LoginLink } from "../components/auth/LoginLink";
 import { useState } from "react";
+import { useSignup } from "../hooks/useSignup";
 
 
 export const SignUp = ({setToast}) => {
+  const { formData, handleChange, handleSubmit, loading } = useSignup(setToast);
   const [role, setRole] = useState("Patient");
+  formData.role = role.toLowerCase(); // Ensure role is included in formData
   return (
     <div className="min-h-screen bg-[#edf7f5] flex flex-col">
       <header className="px-8 py-5">
@@ -27,11 +30,12 @@ export const SignUp = ({setToast}) => {
             <RoleToggle  role={role} setRole={setRole}/>
           </div>
 
+          <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3">
-            <InputField label="Full Name" id="fullName" placeholder="John Doe" setToast={setToast} />
-            <InputField label="Phone/Email" id="phone/email" type="text" placeholder="+977 98XXXXXXXX" setToast={setToast} />
-            <InputField label="Password" id="password" type="password" placeholder="••••••••" setToast={setToast} />
-            <InputField label="Confirm Password" id="confirmPassword" type="password" placeholder="••••••••" setToast={setToast} />
+            <InputField onChange={handleChange} value={formData.fullName} label="Full Name" id="fullName" placeholder="John Doe" setToast={setToast} />
+            <InputField onChange={handleChange} value={formData.identifier} label="Phone/Email" id="identifier" type="text" placeholder="+977 98XXXXXXXX" setToast={setToast} />
+            <InputField onChange={handleChange} value={formData.password} label="Password" id="password" type="password" placeholder="••••••••" setToast={setToast} />
+            <InputField onChange={handleChange} value={formData.confirmPassword} label="Confirm Password" id="confirmPassword" type="password" placeholder="••••••••" setToast={setToast} />
             {
               role.toLowerCase() === "doctor" 
               ?  <LicenseUpload />: null
@@ -42,6 +46,8 @@ export const SignUp = ({setToast}) => {
               <SubmitButton role={role} />
             </div>
           </div>
+          </form>
+
 
           <div className="mt-3">
             <LoginLink />
