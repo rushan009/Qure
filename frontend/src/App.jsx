@@ -5,7 +5,7 @@ import {SignUp} from './pages/Signup'
 import { useState } from "react";
 import { CustomToast } from "./components/ui/CustomToast";
 import { Login } from './pages/Login';
-import UserDasboard from './pages/user/UserDasboard';
+import UserDasboard from './pages/UserDasboard';
 import DoctorDashboard from './pages/doctor/DoctorDashboard';
 
 const App = () => {
