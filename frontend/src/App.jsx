@@ -3,9 +3,11 @@ import Index from '../src/pages/Index'
 import {Route, Routes, BrowserRouter} from 'react-router-dom'
 import {SignUp} from './pages/Signup'
 import { useState } from "react";
-import { CustomToast } from "./components/CustomToast";
+import { CustomToast } from "./components/ui/CustomToast";
 import { Login } from './pages/Login';
-import Dashboard from './pages/user/dashboard';
+import UserDasboard from './pages/user/UserDasboard';
+import DoctorDashboard from './pages/doctor/DoctorDashboard';
+
 const App = () => {
     const [toast, setToast] = useState(null);
   
@@ -24,7 +26,9 @@ const App = () => {
             <Route path="/" element={<Index/>} />
             <Route path="/signup" element={<SignUp setToast={setToast} />} />
             <Route path="/login" element={<Login setToast={setToast} />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+     
+            <Route path="/user/dashboard" element={<UserDasboard />} />
+            <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
         </Routes>
         
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar   from '../components/Navbar';
-import Hero     from '../components/Hero';
-import Features from '../components/Features';
-import About    from '../components/About';
-import Contact  from '../components/Contact';
-import Footer   from '../components/Footer';
+import Navbar   from '../components/ui/Navbar';
+import Hero     from '../components/ui/Hero';
+import Features from '../components/ui/Features';
+import About    from '../components/ui/About';
+import Contact  from '../components/ui/Contact';
+import Footer   from '../components/ui/Footer';
 
 /**
  * Index — assembles all sections into the landing page.

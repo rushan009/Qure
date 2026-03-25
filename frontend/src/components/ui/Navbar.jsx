@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Logo from './ui/Logo';
-import Button from './ui/Button';
+import Logo from '../ui/Logo';
+import Button from '../ui/Button';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [

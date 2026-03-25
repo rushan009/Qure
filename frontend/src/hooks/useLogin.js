@@ -24,12 +24,21 @@ export const useLogin = (setToast) => {
     setLoading(true);
     try {
       const response = await loginUser(formData);
+      console.log(response);
+      
+
 
       // Use the setToast passed to the hook
       setToast({ type: "success", message: response.message });
+      if(response.data.role === "doctor"){
+        navigate("/doctor/dashboard");
+      }else{
+        navigate("/user/dashboard");
+      }
+      
 
       // Redirect after login
-      navigate("/dashboard"); // change this to your route
+      // change this to your route
     } catch (error) {
       setToast({ type: "error", message: error.error || error.message || "Login failed" });
     } finally {

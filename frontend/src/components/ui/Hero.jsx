@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './ui/Button';
+import Button from '../ui/Button';
 import QRCard from './QRCard';
 import styles from './Hero.module.css';
 

@@ -11,15 +11,15 @@
 }
 
 :root {
-  --bg: #e8f5f5;
-  --bg2: #d4eeed;
-  --teal: #4bbfbf;
+  --bg: #d4ecef;          /* slightly darker than #e6f2f5 */
+  --bg2: #c2e3e7;         /* slightly darker than #d4eeed */
+  --teal: #4bbfbf;        /* same accent */
   --teal-dark: #3a9ea0;
-  --teal-btn: #3a9ea0;
-  --text: #1a2b2b;
-  --text-muted: #5a7272;
-  --card-bg: #cfe9e9;
-  --card-bg2: #e0f2f2;
+  --teal-btn: #3a9ea0;    /* button teal */
+  --text: #1a2b2b;        /* same text */
+  --text-muted: #536969;  /* slightly darker muted text */
+  --card-bg: #c8e5e7;     /* card background slightly darker */
+  --card-bg2: #d0eef0;    /* secondary card bg slightly darker */
   --white: #ffffff;
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -30,7 +30,6 @@
   --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.08);
   --border: 1px solid rgba(75, 191, 191, 0.2);
 }
-
 html {
   scroll-behavior: smooth;
 }

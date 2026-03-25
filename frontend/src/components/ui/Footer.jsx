@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from './ui/Logo';
+import Logo from '../ui/Logo';
 import styles from './Footer.module.css';
 
 const FOOTER_LINKS = [
