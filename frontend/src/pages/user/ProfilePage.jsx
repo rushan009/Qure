@@ -46,7 +46,7 @@ const lastName = fullName.split(" ").slice(1).join(" ") || "N/A";
       />
 
       {/* Hero Banner */}
-      <div className="bg-gradient-to-br from-[hsl(184,52%,87%)] to-[hsl(196,64%,88%)] border border-[hsl(120,12%,83%)] rounded-xl p-5 flex items-center gap-4 mb-5">
+      <div className="from-[hsl(184,52%,87%)] to-[hsl(196,64%,88%)] border border-[hsl(120,12%,83%)] rounded-xl p-5 flex items-center gap-4 mb-5">
         <div className="w-16 h-16 rounded-full bg-[hsl(196,64%,88%)] border-2 border-[hsl(196,64%,72%)] flex items-center justify-center shrink-0">
           <User size={28} className="text-[hsl(196,64%,50%)]" />
         </div>
