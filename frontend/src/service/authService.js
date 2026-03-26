@@ -2,6 +2,7 @@ import api from "./api";
 const loginUser = async (userData) => {
   try {
     const response = await api.post("/auth/login", userData);
+    localStorage.setItem("isloggedIn", "true")
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {

@@ -29,13 +29,13 @@ export default function Sidebar({ active, onNav, isOpen, onClose }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2.5 py-1 overflow-y-auto">
+      <nav className="flex-1 px-2.5 py-1 mt-5 overflow-y-auto">
         {NAV.map(({ id, Icon, label }) => (
           <button
             key={id}
             onClick={() => { onNav(id); onClose(); }}
             className={`
-              flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-xl text-left
+              flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-left
               text-[13.5px] font-medium transition-all duration-150 font-['DM_Sans',sans-serif]
               ${active === id
                 ? "bg-[hsl(196,64%,50%)] text-white"

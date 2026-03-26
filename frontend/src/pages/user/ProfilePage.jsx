@@ -1,8 +1,43 @@
 import { User, Phone, Mail, MapPin, Calendar, Pencil } from "lucide-react";
 import { Tag, Field, SectionHdr, Btn, Card, PageHeader } from "../../components/patient/ui";
+import { useEffect, useState } from "react";
+import api from "../../service/api";
+
 
 export default function ProfilePage() {
+  const [profile, setProfile] = useState(null)
+  const [loading, setLoading ] = useState(true)
+  const [error, setError]=useState(null)
+
+  useEffect(()=>{
+    const fetchProfile = async () => {
+      try {
+        const res =await api.get("/auth/profile")
+        setProfile(res.data)
+        
+        
+
+      } catch (err) {
+        setError(err.response?.data?.error || err.message);
+      }
+
+      finally{
+                setLoading(false)
+      }
+    }
+    fetchProfile()
+  }, [])
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!profile) return null;
+const fullName = profile?.user?.fullName || "N/A"; // safe check
+const firstName = fullName.split(" ")[0] || "N/A";
+const lastName = fullName.split(" ").slice(1).join(" ") || "N/A";
+  console.log(profile);
+  
   return (
+   
     <div>
       <PageHeader
         title="Personal Profile"
@@ -16,11 +51,11 @@ export default function ProfilePage() {
           <User size={28} className="text-[hsl(196,64%,50%)]" />
         </div>
         <div>
-          <h2 className="text-xl font-extrabold mb-2">Alex Johnson</h2>
+          <h2 className="text-xl font-extrabold mb-2">{profile.user.fullName}</h2>
           <div className="flex flex-wrap items-center gap-2">
             <Tag label="0+" type="default" />
             <span className="flex items-center gap-1 text-[13px] text-[hsl(200,15%,40%)]">
-              <Calendar size={12} /> 6/15/1992
+              <Calendar size={12} /> {profile.patient.dob}
             </span>
             <Tag label="Organ Donor" type="donor" />
           </div>
@@ -33,12 +68,12 @@ export default function ProfilePage() {
         <Card>
           <SectionHdr icon={User}>Personal Information</SectionHdr>
           <div className="grid grid-cols-2 gap-x-5 gap-y-0.5">
-            <Field label="First Name" value="Alex" />
-            <Field label="Last Name" value="Johnson" />
-            <Field label="Date of Birth" value="1992-06-15" />
-            <Field label="Gender" value="Male" />
-            <Field label="Blood Group" value="0+" />
-            <Field label="Height / Weight" value="178 cm / 75 kg" />
+            <Field label="First Name" value={firstName} />
+            <Field label="Last Name" value={lastName} />
+            <Field label="Date of Birth" value={profile.patient.dob} />
+            <Field label="Gender" value={profile.patient.gender} />
+            <Field label="Blood Group" value={profile.patient.bloodGroup} />
+            <Field label="Height / Weight" value={profile.patient.height} />
           </div>
         </Card>
 
