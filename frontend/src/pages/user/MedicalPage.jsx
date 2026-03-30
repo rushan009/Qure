@@ -19,7 +19,7 @@ export default function MedicalPage() {
       <PageHeader title="Medical Summary" subtitle="Overview of your health profile at a glance" />
 
       {/* Allergies */}
-      <Card className="mb-4 !border-red-200">
+      <Card className="mb-4 border-red-200">
         <SectionHdr icon={AlertTriangle}>Critical Allergies</SectionHdr>
         <div className="flex flex-wrap gap-2.5">
           {ALLERGIES.map(({ n, t }) => (
