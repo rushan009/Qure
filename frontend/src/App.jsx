@@ -7,7 +7,7 @@ import { CustomToast } from "./components/ui/CustomToast";
 import { Login } from "./pages/Login";
 import UserDasboard from "./pages/UserDasboard";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
-import ProtectedRoute from "../ProtectedRoute";
+import ProtectedLayout from "../ProtectedLayout";
 const App = () => {
   const [toast, setToast] = useState(null);
 
@@ -22,19 +22,18 @@ const App = () => {
           />
         )}
       </div>
+
+      
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/signup" element={<SignUp setToast={setToast} />} />
         <Route path="/login" element={<Login setToast={setToast} />} />
 
-        <Route
-          path="/user/dashboard"
-          element={
-            <ProtectedRoute>
-              <UserDasboard />
-            </ProtectedRoute>
-          }
-        />
+      <Route element={<ProtectedLayout />}>
+          <Route path="/user/dashboard" element={<UserDasboard />} />
+       
+      
+        </Route>
         <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
       </Routes>
     </BrowserRouter>

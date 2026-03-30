@@ -37,6 +37,18 @@ const patientSchema = new mongoose.Schema({
     relation: { type: String, default: 'N/A' },
     phone: { type: String, default: 'N/A' },
   },
+  generalMedications: [
+    {
+      name: { type: String, default: 'N/A', required: true },
+      dose: { type: String, default: 'N/A' },
+      frequency: { type: String, default: 'N/A' },
+      purpose: { type: String, default: 'N/A' },
+      prescribedBy: { type: String, default: 'N/A' },
+      category: { type: String, default: 'Prescription (Rx)', enum: ['Prescription (Rx)', 'OTC', 'Supplement'] },
+      startDate: { type: Date, default: null },
+      instructions: { type: String, default: 'N/A' },
+    },
+  ],
 });
 
 const Patient = mongoose.model('Patient', patientSchema);

@@ -68,7 +68,12 @@ async function register(req, res) {
     const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.cookie("token", token);
+   res.cookie("token", token, {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // ← auto-detect
+  maxAge: 60 * 60 * 1000,
+});
 
     const newPatient = await Patient.create({
       user: newUser._id,
@@ -108,7 +113,12 @@ const login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.cookie("token", token);
+  res.cookie("token", token, {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // ← auto-detect
+  maxAge: 60 * 60 * 1000,
+});
 
     // Return user info
     return res.status(200).json({

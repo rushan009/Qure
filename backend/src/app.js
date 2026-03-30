@@ -9,8 +9,20 @@ const authRoutes = require('./routes/auth.routes');
 
 
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
-  credentials: true,                // allow cookies
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (
+      origin.includes('localhost') ||
+      origin.includes('ngrok-free.dev') ||
+      origin.includes('ngrok-free.app') ||
+      origin.includes('ngrok.io') ||
+      origin.match(/^http:\/\/192\.168\.\d+\.\d+:\d+$/)
+    ) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
 }));
 app.use(cookieParser())
 app.use(express.json());

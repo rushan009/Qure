@@ -12,7 +12,6 @@ const doctorSchema = new mongoose.Schema(
        },
        liscenceImage:{
             type: String,
-            required: true,
        },
      
     }
