@@ -8,7 +8,7 @@ const patientSchema = new mongoose.Schema({
   },
   dob: {
     type: Date,
-    default: null, // optional, can be filled later
+    default: null // optional, can be filled later
   },
   gender: {
     type: String,

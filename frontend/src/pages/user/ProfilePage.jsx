@@ -88,7 +88,7 @@ export default function ProfilePage() {
     setFormData({
       firstName,
       lastName,
-      dob: profile.patient.dob || "",
+      dob: profile.patient.dob?.split("T")[0] || "", 
       gender: profile.patient.gender || "",
       bloodGroup: profile.patient.bloodGroup || "",
       height: profile.patient.height || "",
@@ -189,7 +189,7 @@ export default function ProfilePage() {
             <Tag label="0+" type="default" />
             <span className="flex items-center gap-1 text-[13px] text-[hsl(200,15%,40%)]">
               {/* FIX 2: show fallback if no dob */}
-              <Calendar size={12} /> {isEditing ? formData.dob : (profile.patient.dob.split("T")[0] || "xxxx/xx/xx")}
+              <Calendar size={12} /> {isEditing ? formData.dob : (profile.patient.dob?.split("T")[0] || "N/A")}
             </span>
             <Tag label="Organ Donor" type="donor" />
           </div>
@@ -236,7 +236,7 @@ export default function ProfilePage() {
               <Field label="First Name" value={firstName} />
               <Field label="Last Name" value={lastName} />
               {/* FIX 2: show fallback if no dob */}
-              <Field label="Date of Birth" value={profile.patient.dob.split("T")[0] || "xxxx/xx/xx"} />
+              <Field label="Date of Birth" value={profile.patient.dob?.split("T")[0] || "N/A"} />
               <Field label="Gender" value={profile.patient.gender} />
               <Field label="Blood Group" value={profile.patient.bloodGroup} />
               <Field label="Height / Weight" value={`${profile.patient.height || "-"} / ${profile.patient.weight || "-"}`} />
