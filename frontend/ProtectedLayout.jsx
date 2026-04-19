@@ -24,7 +24,7 @@ const ProtectedLayout = () => {
   }, []);
 
   // 2. Start Accident Detection (Only runs if isAuth is true)
-  const { accidentDetected, alertSent, cancelAlert, sendAlert } = useAccidentDetection(isAuth);
+  const { accidentDetected, alertSent, cancelAlert, sendEmergencyAlert } = useAccidentDetection(isAuth);
 
   if (loading) return <div>Loading...</div>;
   if (!isAuth) return <Navigate to="/login" replace />;
@@ -37,7 +37,7 @@ const ProtectedLayout = () => {
         accidentDetected={accidentDetected}
         alertSent={alertSent}
         cancelAlert={cancelAlert}
-        sendAlert={sendAlert}
+        sendAlert={sendEmergencyAlert}
       />
 
       {/* This renders the specific page (Dashboard, Profile, etc.) */}

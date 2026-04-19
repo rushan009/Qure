@@ -1,5 +1,5 @@
 import {
-  Home, User, FileText, AlertTriangle, Settings,
+  Home, User, FileText, AlertTriangle,
   Stethoscope, QrCode, ClipboardList, Pill, HeartPulse,
 } from "lucide-react";
 
@@ -13,5 +13,4 @@ export const NAV = [
   { id: "emergency",   Icon: AlertTriangle, label: "Emergency" },
   { id: "qr",          Icon: QrCode,        label: "QR Code" },
   { id: "access",      Icon: ClipboardList, label: "Access Logs" },
-  { id: "settings",    Icon: Settings,      label: "Settings" },
 ];

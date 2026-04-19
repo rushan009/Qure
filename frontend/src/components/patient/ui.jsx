@@ -7,7 +7,6 @@ const TAG_STYLES = {
   active:     "bg-blue-100 text-blue-700",
   resolved:   "bg-gray-100 text-gray-600",
   supplement: "bg-amber-100 text-amber-800",
-  donor:      "bg-yellow-100 text-yellow-700",
   rx:         "bg-sky-100 text-sky-700",
   otc:        "bg-[hsl(184,46%,86%)] text-[hsl(200,15%,40%)]",
   default:    "bg-sky-100 text-[hsl(200,25%,15%)]",

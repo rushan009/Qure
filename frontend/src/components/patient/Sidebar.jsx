@@ -1,11 +1,30 @@
 import { LogOut, X } from "lucide-react";
 import { NAV } from "../../constants/nav";
+import { useNavigate } from "react-router-dom";
+import api from "../../service/api";
 
 export default function Sidebar({ active, onNav, isOpen, onClose }) {
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await api.post("/auth/logout");
+    } catch {
+      // Even if API fails, continue local cleanup to force sign-out UX.
+    }
+
+    localStorage.removeItem("isloggedIn");
+    localStorage.removeItem("patient");
+    sessionStorage.removeItem("qure_view_report_scan_grant");
+
+    onClose?.();
+    navigate("/login", { replace: true });
+  };
+
   return (
     <aside
       className={`
-        fixed top-0 left-0 h-screen w-[228px] z-[200]
+        fixed top-0 left-0 h-screen w-57 z-200
         bg-[hsl(184,46%,86%)] border-r border-[hsl(120,12%,83%)]
         flex flex-col transition-transform duration-250 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -13,9 +32,9 @@ export default function Sidebar({ active, onNav, isOpen, onClose }) {
       `}
     >
       {/* Logo */}
-      <div className="flex items-center justify-between px-4 pt-[18px] pb-3">
+      <div className="flex items-center justify-between px-4 pt-4.5 pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-[34px] h-[34px] rounded-[9px] bg-[hsl(196,64%,50%)] flex items-center justify-center text-white font-extrabold text-base">
+          <div className="w-8.5 h-8.5 rounded-[9px] bg-[hsl(196,64%,50%)] flex items-center justify-center text-white font-extrabold text-base">
             Q
           </div>
           <span className="font-extrabold text-lg text-[hsl(200,25%,15%)]">Qure</span>
@@ -35,7 +54,7 @@ export default function Sidebar({ active, onNav, isOpen, onClose }) {
             key={id}
             onClick={() => { onNav(id); onClose(); }}
             className={`
-              flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-left
+              flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-left whitespace-nowrap
               text-[13.5px] font-medium transition-all duration-150 font-['DM_Sans',sans-serif]
               ${active === id
                 ? "bg-[hsl(196,64%,50%)] text-white"
@@ -51,7 +70,10 @@ export default function Sidebar({ active, onNav, isOpen, onClose }) {
 
       {/* Sign Out */}
       <div className="px-2.5 pb-4 pt-2.5 border-t border-[hsl(120,12%,83%)]">
-        <button className="flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-xl text-left text-[13.5px] font-medium text-[hsl(200,15%,40%)] hover:bg-[hsl(184,52%,80%)] hover:text-[hsl(200,25%,15%)] transition-all duration-150">
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-xl text-left text-[13.5px] font-medium text-[hsl(200,15%,40%)] hover:bg-[hsl(184,52%,80%)] hover:text-[hsl(200,25%,15%)] transition-all duration-150 whitespace-nowrap"
+        >
           <LogOut size={15} />
           Sign Out
         </button>

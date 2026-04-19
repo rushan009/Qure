@@ -39,15 +39,10 @@ async function register(req, res) {
         : { phone: identifier.trim() }),
     };
 
-    // If doctor, check required doctor fields
-    if (role === "doctor") {
-      const { specialization, liscenceNumber, liscenceImage } = req.body;
-      if (!specialization || !liscenceNumber || !liscenceImage) {
-        return res
-          .status(400)
-          .json({ error: "Missing required doctor fields" });
-      }
-      userData.specialization = specialization; // optional to store in user
+    // Doctor profile fields are optional during testing.
+    // Keep fields in model and persist whatever is provided.
+    if (role === "doctor" && req.body?.specialization) {
+      userData.specialization = String(req.body.specialization).trim();
     }
 
     // Create user
@@ -56,11 +51,32 @@ async function register(req, res) {
     // Create doctor document if role is doctor
     if (role === "doctor") {
       const { specialization, liscenceNumber, liscenceImage } = req.body;
-      await Doctor.create({
+
+      const doctorPayload = {
         user: newUser._id,
-        specialization,
-        liscenceNumber,
-        liscenceImage,
+      };
+
+      if (String(specialization || "").trim()) {
+        doctorPayload.specialization = String(specialization).trim();
+      }
+
+      if (String(liscenceImage || "").trim()) {
+        doctorPayload.liscenceImage = String(liscenceImage).trim();
+      }
+
+      if (
+        liscenceNumber !== undefined &&
+        liscenceNumber !== null &&
+        String(liscenceNumber).trim() !== ""
+      ) {
+        const parsedLicense = Number(liscenceNumber);
+        if (!Number.isNaN(parsedLicense)) {
+          doctorPayload.liscenceNumber = parsedLicense;
+        }
+      }
+
+      await Doctor.create({
+        ...doctorPayload,
       });
     }
 
@@ -80,7 +96,9 @@ async function register(req, res) {
     });
     return res.status(201).json({
       message: "Registration successful",
+      token,
       data: {
+        userId: newUser._id,
         fullName: newUser.fullName,
         role: newUser.role,
         ...(isEmail ? { email: newUser.email } : { phone: newUser.phone }),
@@ -123,7 +141,9 @@ const login = async (req, res) => {
     // Return user info
     return res.status(200).json({
       message: "Login successful",
+      token,
       data: {
+        userId: user._id,
         fullName: user.fullName,
         role: user.role,
         ...(isEmail ? { email: user.email } : { phone: user.phone }),
@@ -135,7 +155,23 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+    });
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
 module.exports = {
   register,
   login,
+  logout,
 };

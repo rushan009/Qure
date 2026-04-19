@@ -29,6 +29,7 @@ const updateProfile = async (req, res) => {
     const updatedPatient = await Patient.findOneAndUpdate(
       { user: new mongoose.Types.ObjectId(req.userId) },
       {
+        $setOnInsert: { user: new mongoose.Types.ObjectId(req.userId) },
         ...(dob && { dob }),
         ...(gender && { gender }),
         ...(bloodGroup && { bloodGroup }),
@@ -36,7 +37,7 @@ const updateProfile = async (req, res) => {
         ...(weight && { weight }),
         ...(address && { address }),
       },
-      { returnDocument: "after" },
+      { returnDocument: "after", upsert: true, setDefaultsOnInsert: true },
     );
     return res.status(200).json({ user: updatedUser, patient: updatedPatient });
   } catch (err) {

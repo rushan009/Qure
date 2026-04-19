@@ -13,6 +13,37 @@ const doctorSchema = new mongoose.Schema(
        liscenceImage:{
             type: String,
        },
+      isNmcVerified: {
+          type: Boolean,
+          default: false,
+      },
+      licenseVerificationStatus: {
+          type: String,
+          enum: ["not_submitted", "pending", "verified", "failed", "manual_review"],
+          default: "not_submitted",
+      },
+      extractedNmcNumber: {
+          type: String,
+          trim: true,
+      },
+      verificationConfidence: {
+          type: Number,
+          default: 0,
+      },
+      verificationSource: {
+          type: String,
+          default: "none",
+      },
+      verificationFailureReason: {
+          type: String,
+          default: "",
+      },
+      verificationLastCheckedAt: {
+          type: Date,
+      },
+      verifiedAt: {
+          type: Date,
+      },
      
     }
 )

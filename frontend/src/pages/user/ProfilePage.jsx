@@ -191,7 +191,6 @@ export default function ProfilePage() {
               {/* FIX 2: show fallback if no dob */}
               <Calendar size={12} /> {isEditing ? formData.dob : (profile.patient.dob?.split("T")[0] || "N/A")}
             </span>
-            <Tag label="Organ Donor" type="donor" />
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-const Patient = require("../models/patient.model");
+const { getOrCreatePatientProfile } = require("../utils/patientProfile");
 
 async function addMedication(req, res) {
   const userId = req.userId; // Assuming patientId is stored in req.user after authentication
@@ -13,10 +13,7 @@ async function addMedication(req, res) {
     startDate,
     instructions,
   } = req.body;
-  const patient = await Patient.findOne({user: userId});
-  if (!patient) {
-    return res.status(404).json({ error: "Patient not found" });
-  }
+  const patient = await getOrCreatePatientProfile(userId);
 
   const newMedication = {
     name,
@@ -41,10 +38,7 @@ async function addMedication(req, res) {
 async function getMedications(req, res) {
   const userId = req.userId; // Assuming patientId is stored in req.user after authentication
 
-  const patient = await Patient.findOne({user: userId});
-  if (!patient) {
-    return res.status(404).json({ error: "Patient not found" });
-  }
+  const patient = await getOrCreatePatientProfile(userId);
 
   res.status(200).json({ medications: patient.generalMedications });
 }
@@ -55,10 +49,7 @@ async function deleteMedication(req, res) {
   const userId = req.userId;
   const medicationId = req.params.id;
 
-  const patient = await Patient.findOne({user: userId});
-  if (!patient) {
-    return res.status(404).json({ error: "Patient not found" });
-  }
+  const patient = await getOrCreatePatientProfile(userId);
 
   const medicationIndex = patient.generalMedications.findIndex(med => med._id.toString() === medicationId);
   if (medicationIndex === -1) {

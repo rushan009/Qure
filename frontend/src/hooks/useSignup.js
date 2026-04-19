@@ -7,7 +7,8 @@ export const useSignup = (setToast) => {
     fullName: "",
     identifier: "",
     password: "",
-    role:""
+    confirmPassword: "",
+    role: "patient",
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,6 +16,13 @@ export const useSignup = (setToast) => {
   // Update form state
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleRoleChange = (roleValue) => {
+    setFormData((prev) => ({
+      ...prev,
+      role: String(roleValue || "").toLowerCase(),
+    }));
   };
 
   console.log(formData);
@@ -38,5 +46,5 @@ export const useSignup = (setToast) => {
     }
   };
 
-  return { formData, handleChange, handleSubmit, loading };
+  return { formData, handleChange, handleRoleChange, handleSubmit, loading };
 };

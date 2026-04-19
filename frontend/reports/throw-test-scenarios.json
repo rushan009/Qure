@@ -1,0 +1,45 @@
+[
+  {
+    "id": "throw-1",
+    "label": false,
+    "type": "phone-throw",
+    "samples": [
+      { "timestampMs": 0, "magnitude": 9.8 },
+      { "timestampMs": 120, "magnitude": 1.2 },
+      { "timestampMs": 280, "magnitude": 29.0 },
+      { "timestampMs": 1000, "magnitude": 9.5 },
+      { "timestampMs": 3000, "magnitude": 11.0 },
+      { "timestampMs": 8000, "magnitude": 10.2 },
+      { "timestampMs": 10000, "magnitude": 9.6 }
+    ],
+    "endTimeMs": 12000
+  },
+  {
+    "id": "throw-2",
+    "label": false,
+    "type": "phone-throw",
+    "samples": [
+      { "timestampMs": 0, "magnitude": 9.7 },
+      { "timestampMs": 90, "magnitude": 0.9 },
+      { "timestampMs": 240, "magnitude": 32.5 },
+      { "timestampMs": 900, "magnitude": 10.1 },
+      { "timestampMs": 2600, "magnitude": 11.8 },
+      { "timestampMs": 9000, "magnitude": 9.9 },
+      { "timestampMs": 11000, "magnitude": 10.4 }
+    ],
+    "endTimeMs": 13000
+  },
+  {
+    "id": "drop-recovered-1",
+    "label": false,
+    "type": "recovered-drop",
+    "samples": [
+      { "timestampMs": 0, "magnitude": 9.8 },
+      { "timestampMs": 100, "magnitude": 1.1 },
+      { "timestampMs": 260, "magnitude": 31.0 },
+      { "timestampMs": 3000, "magnitude": 15.5 },
+      { "timestampMs": 3500, "magnitude": 10.0 }
+    ],
+    "endTimeMs": 7000
+  }
+]

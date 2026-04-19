@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accident Detection Visual Report - 2026-04-01</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --text: #1b1f2a;
+        --muted: #596074;
+        --ok: #1a8f5a;
+        --warn: #ef8f00;
+        --danger: #d64545;
+        --info: #2d6cdf;
+        --grid: #e6eaf2;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(1200px 600px at 90% -10%, #d9e5ff 0%, transparent 60%),
+          radial-gradient(900px 500px at -20% 110%, #dff7ef 0%, transparent 65%),
+          var(--bg);
+      }
+
+      .wrap {
+        max-width: 1050px;
+        margin: 28px auto;
+        padding: 0 16px 24px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 1.65rem;
+      }
+
+      .sub {
+        color: var(--muted);
+        margin: 0 0 20px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--grid);
+        border-radius: 12px;
+        padding: 12px 14px;
+        box-shadow: 0 8px 18px rgba(26, 31, 42, 0.06);
+      }
+
+      .label {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-bottom: 5px;
+      }
+
+      .value {
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+
+      .value.ok { color: var(--ok); }
+      .value.warn { color: var(--warn); }
+      .value.danger { color: var(--danger); }
+      .value.info { color: var(--info); }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--grid);
+        border-radius: 12px;
+        padding: 14px;
+        box-shadow: 0 8px 18px rgba(26, 31, 42, 0.06);
+        margin-bottom: 14px;
+      }
+
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 1.05rem;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 170px 1fr 90px;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 9px;
+      }
+
+      .bar-name {
+        color: var(--text);
+        font-size: 0.92rem;
+      }
+
+      .bar-track {
+        width: 100%;
+        height: 20px;
+        border: 1px solid var(--grid);
+        border-radius: 999px;
+        background: #f7f9fd;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #2d6cdf 0%, #21a07b 100%);
+      }
+
+      .bar-val {
+        text-align: right;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .cm-note {
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .cm-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid var(--grid);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .cm-table thead th {
+        background: #f7f9fd;
+        color: var(--text);
+        font-size: 0.87rem;
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--grid);
+        text-align: center;
+      }
+
+      .cm-table thead th:first-child {
+        text-align: left;
+      }
+
+      .cm-table tbody th {
+        background: #fbfcff;
+        text-align: left;
+        padding: 10px 8px;
+        font-size: 0.86rem;
+        border-right: 1px solid var(--grid);
+        border-bottom: 1px solid var(--grid);
+        width: 34%;
+      }
+
+      .cm-table td {
+        text-align: center;
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--grid);
+        border-right: 1px solid var(--grid);
+      }
+
+      .cm-table tr:last-child td,
+      .cm-table tr:last-child th {
+        border-bottom: 0;
+      }
+
+      .cm-table td:last-child,
+      .cm-table th:last-child {
+        border-right: 0;
+      }
+
+      .cm-k {
+        display: block;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .cm-v {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 2px 0;
+      }
+
+      .cm-r {
+        display: block;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .cm-tn { background: #edf8f3; }
+      .cm-tp { background: #edf4ff; }
+      .cm-fn { background: #fff7e8; }
+      .cm-fp { background: #ffefef; }
+
+      .foot {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.83rem;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .split {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .bar-row {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+        .bar-val {
+          text-align: left;
+        }
+        .cm-table thead th,
+        .cm-table tbody th,
+        .cm-table td {
+          font-size: 0.78rem;
+          padding: 8px 6px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Accident Detection Visual Report</h1>
+      <p class="sub">Generated from synthetic evaluation (seed=42, countPerClass=400) on 2026-04-01 14:38:23 +0545</p>
+
+      <section class="grid">
+        <article class="card">
+          <div class="label">Accuracy</div>
+          <div class="value ok">91.00%</div>
+        </article>
+        <article class="card">
+          <div class="label">Precision</div>
+          <div class="value info">100.00%</div>
+        </article>
+        <article class="card">
+          <div class="label">Recall</div>
+          <div class="value warn">82.00%</div>
+        </article>
+        <article class="card">
+          <div class="label">F1 Score</div>
+          <div class="value info">90.11%</div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Case-wise Accuracy</h2>
+        <div class="bar-row">
+          <div class="bar-name">accident</div>
+          <div class="bar-track"><div class="bar-fill" style="width:82%"></div></div>
+          <div class="bar-val">328/400 (82.00%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">recovered-drop</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-val">100/100 (100.00%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">freefall-only</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-val">100/100 (100.00%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">impact-only</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-val">100/100 (100.00%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-name">normal-motion</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-val">100/100 (100.00%)</div>
+        </div>
+      </section>
+
+      <section class="split">
+        <article class="panel">
+          <h2>Confusion Matrix (800 total)</h2>
+          <p class="cm-note">Rows are actual classes, columns are predicted classes.</p>
+          <table class="cm-table" aria-label="Confusion matrix">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Predicted: No Accident</th>
+                <th>Predicted: Accident</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Actual: No Accident</th>
+                <td class="cm-tn">
+                  <span class="cm-k">TN</span>
+                  <span class="cm-v">400</span>
+                  <span class="cm-r">100.00% of No Accident</span>
+                </td>
+                <td class="cm-fp">
+                  <span class="cm-k">FP</span>
+                  <span class="cm-v">0</span>
+                  <span class="cm-r">0.00% of No Accident</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Actual: Accident</th>
+                <td class="cm-fn">
+                  <span class="cm-k">FN</span>
+                  <span class="cm-v">72</span>
+                  <span class="cm-r">18.00% of Accident</span>
+                </td>
+                <td class="cm-tp">
+                  <span class="cm-k">TP</span>
+                  <span class="cm-v">328</span>
+                  <span class="cm-r">82.00% of Accident</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="panel">
+          <h2>Accident Class Outcome (400 accident cases)</h2>
+          <div class="bar-row">
+            <div class="bar-name">Detected accidents (TP)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:82%; background:linear-gradient(90deg,#2d6cdf,#1a8f5a)"></div></div>
+            <div class="bar-val">328 / 400</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-name">Missed accidents (FN)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:18%; background:linear-gradient(90deg,#ef8f00,#d64545)"></div></div>
+            <div class="bar-val">72 / 400</div>
+          </div>
+          <p class="foot">This highlights the key area for future improvement: reduce FN while keeping FP near zero.</p>
+        </article>
+      </section>
+
+      <p class="foot">Source metrics: frontend/reports/accident-evaluation-2026-04-01.md and frontend/reports/accident-evaluation-2026-04-01.csv</p>
+    </main>
+  </body>
+</html>

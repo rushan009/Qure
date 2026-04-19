@@ -8,6 +8,15 @@
     margin: 0;
     padding: 0;
   }
+
+  /* Mobile baseline: keep action labels on one line. */
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    white-space: nowrap;
+  }
 }
 
 :root {
@@ -29,6 +38,8 @@
   --shadow-card: 0 12px 40px rgba(75, 191, 191, 0.15);
   --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.08);
   --border: 1px solid rgba(75, 191, 191, 0.2);
+  --sidebar-surface: hsl(184,46%,86%);
+  --sidebar-surface-soft: hsl(184,46%,88%);
 }
 html {
   scroll-behavior: smooth;
@@ -49,4 +60,24 @@ body {
 
 .animate-slideDown {
   animation: slideDown 0.25s ease-out;
+}
+
+/* Make card surfaces match the sidebar tone globally. */
+:is(div, section, article, aside, main)[class*="bg-white"] {
+  background-color: var(--sidebar-surface) !important;
+}
+
+:is(div, section, article, aside, main)[class*="bg-[hsl(184,46%,91%)]"],
+:is(div, section, article, aside, main)[class*="bg-[hsl(184,46%,94%)]"],
+:is(div, section, article, aside, main)[class*="bg-[hsl(184,30%,96%)]"] {
+  background-color: var(--sidebar-surface-soft) !important;
+}
+
+/* Exception: keep prescribed medication cards whitish for readability. */
+.prescribed-med-white {
+  background-color: #f7fbff !important;
+}
+
+.medical-white-card {
+  background-color: #f7fbff !important;
 }

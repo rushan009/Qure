@@ -1,5 +1,5 @@
-const Patient = require("../models/patient.model");
 const User = require("../models/user.model")
+const { getOrCreatePatientProfile } = require("../utils/patientProfile");
 
 const getProfile = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ const getProfile = async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
 
    
-    const patient = await Patient.findOne({ user: req.userId });
+    const patient = await getOrCreatePatientProfile(req.userId);
   
     return res.status(200).json({
       user,    

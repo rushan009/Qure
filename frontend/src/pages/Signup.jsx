@@ -9,9 +9,14 @@ import { useSignup } from "../hooks/useSignup";
 
 
 export const SignUp = ({setToast}) => {
-  const { formData, handleChange, handleSubmit, loading } = useSignup(setToast);
+  const { formData, handleChange, handleRoleChange, handleSubmit, loading } = useSignup(setToast);
   const [role, setRole] = useState("Patient");
-  formData.role = role.toLowerCase(); // Ensure role is included in formData
+
+  const onRoleSelect = (nextRole) => {
+    setRole(nextRole);
+    handleRoleChange(nextRole);
+  };
+
   return (
     <div className="min-h-screen bg-[#edf7f5] flex flex-col">
       <header className="px-8 py-5">
@@ -27,7 +32,7 @@ export const SignUp = ({setToast}) => {
           </div>
 
           <div className="mb-3">
-            <RoleToggle  role={role} setRole={setRole}/>
+            <RoleToggle role={role} setRole={onRoleSelect} />
           </div>
 
           <form onSubmit={handleSubmit}>

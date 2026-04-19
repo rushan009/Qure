@@ -1,12 +1,25 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const FREEFALL_THRESHOLD = 2.0;
-const IMPACT_THRESHOLD = 25.0;
-const FREEFALL_WINDOW_MS = 300;
-const INACTIVITY_TIMEOUT_MS = 10000;
+const FREEFALL_THRESHOLD = 2.5;
+const IMPACT_THRESHOLD = 22.0;
+const FREEFALL_WINDOW_MS = 2500;
+const INACTIVITY_TIMEOUT_MS = 9000;
 const CANCEL_WINDOW_MS = 10000;
 const POST_IMPACT_DEBOUNCE_MS = 2000;
-const EMERGENCY_CONTACT = "rushan.official1@gmail.com";
+const MOVEMENT_CANCEL_THRESHOLD = 13.0;
+
+const resolvePostAlertRedirectPath = () => {
+  try {
+    const rawPatient = localStorage.getItem("patient");
+    const parsedPatient = rawPatient ? JSON.parse(rawPatient) : null;
+    const role = String(parsedPatient?.role || "patient").toLowerCase();
+
+    if (role === "doctor") return "/doctor/dashboard";
+    return "/user/dashboard?page=home";
+  } catch {
+    return "/user/dashboard?page=home";
+  }
+};
 
 const useAccidentDetection = (isAuth) => {
   const [accidentDetected, setAccidentDetected] = useState(false);
@@ -34,9 +47,55 @@ const useAccidentDetection = (isAuth) => {
       return;
     }
 
-    alertSentRef.current = true;
-    setAlertSent(true);
     console.log("📍 Getting location...");
+
+    const sendEmailRequest = async (latitude = null, longitude = null) => {
+      try {
+        const response = await fetch("/api/auth/emergency/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ latitude, longitude }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data?.error || "Failed to send emergency alert");
+        }
+
+        console.log("✅ Emergency alert sent successfully!", data);
+        return true;
+      } catch (error) {
+        console.log("❌ Failed to send emergency alert:", error.message);
+        return false;
+      }
+    };
+
+    const markSuccessAndRedirect = () => {
+      alertSentRef.current = true;
+      setAlertSent(true);
+
+      const target = resolvePostAlertRedirectPath();
+      setTimeout(() => {
+        window.location.assign(target);
+      }, 1200);
+    };
+
+    const markFailure = () => {
+      alertSentRef.current = false;
+      setAlertSent(false);
+    };
+
+    const attemptWithoutLocation = async () => {
+      const sent = await sendEmailRequest();
+      if (sent) markSuccessAndRedirect();
+      else markFailure();
+    };
+
+    if (!navigator.geolocation || typeof navigator.geolocation.getCurrentPosition !== "function") {
+      await attemptWithoutLocation();
+      return;
+    }
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -45,23 +104,15 @@ const useAccidentDetection = (isAuth) => {
         console.log(`📍 Location found: ${latitude}, ${longitude}`);
         console.log("📧 Sending emergency email...");
 
-        try {
-          const response = await fetch("/api/emergency/send-email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contactEmail: EMERGENCY_CONTACT,
-              latitude,
-              longitude,
-            }),
-          });
-          const data = await response.json();
-          console.log("✅ Emergency alert sent successfully!", data);
-        } catch (error) {
-          console.log("❌ Failed to send emergency alert:", error.message);
-        }
+        const sent = await sendEmailRequest(latitude, longitude);
+        if (sent) markSuccessAndRedirect();
+        else markFailure();
       },
-      (error) => console.log("❌ Location access denied:", error.message)
+      async (error) => {
+        console.log("❌ Location access denied:", error.message);
+        await attemptWithoutLocation();
+      },
+      { timeout: 7000, maximumAge: 10000, enableHighAccuracy: true }
     );
   }, []);
 
@@ -102,7 +153,7 @@ const useAccidentDetection = (isAuth) => {
       !accidentDetectedRef.current &&
       postImpactTimestamp.current &&
       now - postImpactTimestamp.current > POST_IMPACT_DEBOUNCE_MS &&
-      magnitude > 12.0
+      magnitude > MOVEMENT_CANCEL_THRESHOLD
     ) {
       console.log("🏃 Movement detected after impact — false alarm, resetting!");
       clearTimeout(inactivityTimerRef.current);

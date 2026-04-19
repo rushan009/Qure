@@ -8,6 +8,7 @@ import { Login } from "./pages/Login";
 import UserDasboard from "./pages/UserDasboard";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 import ProtectedLayout from "../ProtectedLayout";
+import ViewReport from "./pages/QR/ViewReport";
 const App = () => {
   const [toast, setToast] = useState(null);
 
@@ -29,13 +30,12 @@ const App = () => {
         <Route path="/signup" element={<SignUp setToast={setToast} />} />
         <Route path="/login" element={<Login setToast={setToast} />} />
 
-      <Route element={<ProtectedLayout />}>
-          <Route path="/user/dashboard" element={<UserDasboard />} />
-       
-      
-        </Route>
-        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
-      </Routes>
+    <Route element={<ProtectedLayout />}>
+  <Route path="/user/dashboard" element={<UserDasboard />} />
+  <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+  <Route path="/view-report/:patientId" element={<ViewReport />} />
+</Route>
+</Routes>
     </BrowserRouter>
   );
 };
